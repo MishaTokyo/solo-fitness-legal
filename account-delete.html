@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solo Fitness — Delete your account</title>
+  <meta name="description" content="How to permanently delete your Solo Fitness account and data." />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --panel: #14141c;
+      --text: #e8e8f0;
+      --muted: #9a9ab0;
+      --accent: #7c3aed;
+      --danger: #ff5470;
+      --border: #26262e;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
+    main { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+    h1 { font-size: 28px; margin: 0 0 6px; }
+    h2 { font-size: 18px; margin: 28px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    p, li { color: var(--text); }
+    .muted { color: var(--muted); font-size: 13px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: var(--panel); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+    ol li { margin: 10px 0; }
+    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+    .header img { width: 48px; height: 48px; border-radius: 10px; }
+    .header .brand { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 13px; color: var(--muted); }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin: 14px 0; }
+    .danger { color: var(--danger); font-weight: 600; }
+    .small { font-size: 13px; color: var(--muted); }
+    footer { color: var(--muted); font-size: 12px; margin-top: 48px; text-align: center; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="header">
+      <img src="./icon-512.png" alt="Solo Fitness icon" />
+      <div>
+        <div class="brand">Solo Fitness</div>
+        <h1>Delete your account</h1>
+        <div class="muted">Updated 19 June 2026</div>
+      </div>
+    </div>
+
+    <p>You can permanently delete your Solo Fitness account at any time. This
+      page exists to satisfy Google Play's requirement that account deletion is
+      possible without installing the app.</p>
+
+    <h2>Option A — Delete from inside the app (recommended)</h2>
+    <div class="card">
+      <ol>
+        <li>Open <strong>Solo Fitness</strong> on your phone.</li>
+        <li>Go to <strong>Settings → Account</strong>.</li>
+        <li>Tap <strong>Delete account</strong>.</li>
+        <li>Confirm <strong>Delete forever</strong> in the dialog.</li>
+      </ol>
+      <p class="small">The app will sign you out and return you to the welcome
+        screen. Your account row is removed from our database
+        and the deletion cascades to every table that holds your data.</p>
+    </div>
+
+    <h2>Option B — Request deletion by email</h2>
+    <p>If you no longer have the app installed, you can request deletion by
+      writing from the email address associated with your account to:</p>
+    <p><a href="mailto:mikesot7@gmail.com?subject=Account%20deletion%20request">mikesot7@gmail.com</a></p>
+    <p>Please include the wording <em>“I request deletion of my Solo Fitness
+      account”</em>. We will process the request within <strong>14 days</strong>
+      and reply when it is done. We will only act on requests sent from the
+      email address that owns the account.</p>
+
+    <h2>What gets deleted</h2>
+    <p>Both options delete <strong>everything</strong> we store about you:</p>
+    <ul>
+      <li>your authentication record (email, password hash, OAuth link);</li>
+      <li>your profile (nickname, body weight, level, rank, XP);</li>
+      <li>every workout you logged and every workout template;</li>
+      <li>every meal, nutrition goal, and custom food entry;</li>
+      <li>your body-weight history and meal-slot configuration;</li>
+      <li>your friendships (both directions);</li>
+      <li>locally cached data on your device.</li>
+    </ul>
+
+    <h2>What we keep</h2>
+    <p>None of your personal data is retained. We may keep <strong>aggregated,
+      anonymous statistics</strong> (for example: total number of workouts ever
+      logged across all users) that cannot be linked back to you. Backups are
+      overwritten within <strong>30 days</strong> of deletion.</p>
+
+    <p class="danger">Deletion is immediate and cannot be undone. You will need
+      to sign up again from scratch if you want to use Solo Fitness later.</p>
+
+    <p>For more details see our
+      <a href="./privacy-policy.html">Privacy Policy</a>.</p>
+
+    <footer>© 2026 Solo Fitness</footer>
+  </main>
+</body>
+</html>
