@@ -1,6 +1,6 @@
 # Solo Fitness — Privacy Policy
 
-**Effective date:** 17 July 2026  
+**Effective date:** 27 July 2026  
 **Contact:** mikesot7@gmail.com
 
 This Privacy Policy describes how the Solo Fitness mobile application
@@ -26,10 +26,11 @@ track you across other apps or websites for advertising.
 
 ### 1.1 Account information
 
-- **Email address** — from Google Sign-In (production). Development builds may
-  also use email/password for testing.
+- **Email address** — from Google Sign-In or Sign in with Apple (production).
+  Development builds may also use email/password for testing.
 - **Authentication identifiers** — provider account IDs needed to keep you
-  signed in (for example Google account ID via Supabase Auth).
+  signed in (for example a Google account ID or Apple user identifier via
+  Supabase Auth).
 - **Nickname / display name** — chosen by you during onboarding (and later via
   paid nickname changes).
 - **Profile basics** — gender, age, height, and body weight entered during
@@ -65,6 +66,12 @@ and does **not** read Apple Health / HealthKit or Google Fit by default.
 
 - **Friendships** — friend requests and accepted friendships. Nicknames (and
   optional supporter badge) can be visible to friends.
+- **Profile photo (optional)** — if you upload an avatar, the image is stored on
+  our servers and shown to friends in chat, lists, and the calendar. You can
+  remove it in Settings.
+- **Presence / last activity** — when you use social features, a last-seen
+  timestamp may be visible to accepted friends (for example to show online
+  status).
 - **Direct messages and group chat messages** — content you send to other users.
 - **Co-workout / live training sessions** — participants, session state, and
   related workout data shared for that session.
@@ -86,10 +93,12 @@ You can deny any permission; related features will simply be limited.
 | Permission / media | How we use it |
 |---|---|
 | **Camera** | Barcode scanning for foods; optional meal photos for AI analysis. Barcode frames are processed for detection and are **not** stored as a video library. |
-| **Photo library** | Optional: pick a meal photo to analyze. |
+| **Photo library** | Optional: pick a meal photo to analyze, or a profile photo to upload. |
 | **Microphone + speech recognition** | Optional: dictate meal notes. Speech is converted to text by the **on-device / OS speech recognizer**. We do **not** upload or store raw audio recordings. |
+| **Profile photo upload** | Optional: photo you choose for your profile. Stored on our servers (Supabase Storage) and shown to friends when you use social features. Removed when you delete the photo or your account. |
 | **Meal photo thumbnails** | Compressed thumbnails are stored **only on your device** (about 30 days) for the day view. They are **not** synced as image files to our database. |
 | **AI meal photo request** | When you run AI meal-photo analysis, a compressed image is sent **for that request** to our backend and then to the AI provider (see §3). |
+| **Local notifications** | Optional: rest-timer alerts on your device when a set rest period ends (including lock-screen / Live Activity on iOS where supported). Scheduled locally; we do **not** receive notification content on our servers. |
 
 ### 1.7 Product analytics (first-party)
 
@@ -136,18 +145,19 @@ generate the feature response (see §3).
 ### 3.1 Primary storage
 
 Your account and app data are stored on [Supabase](https://supabase.com/)
-(PostgreSQL, Auth, Edge Functions, and related infrastructure) under the
-developer's project. Connections use HTTPS/TLS. Access is restricted with
-Row-Level Security so users generally only read/write their own rows, plus
-rows required for friendships, chats, and co-workouts they participate in.
+(PostgreSQL, Auth, Storage for profile photos, Edge Functions, and related
+infrastructure) under the developer's project. Connections use HTTPS/TLS. Access
+is restricted with Row-Level Security so users generally only read/write their
+own rows, plus rows required for friendships, chats, and co-workouts they
+participate in.
 
 ### 3.2 Third-party services
 
 | Service | Purpose | Data involved |
 |---|---|---|
-| **Supabase** | Auth, database, sync, Edge Functions, product analytics events | Account and app data described in §1 |
-| **Google Sign-In / Google** | Authentication; Google Play distribution & billing on Android | Email / Google account identifiers; store purchase metadata |
-| **Apple App Store** | Distribution & billing on iOS (when published) | Store purchase / crash identifiers as provided by Apple |
+| **Supabase** | Auth, database, file storage (avatars), sync, Edge Functions, product analytics events | Account and app data described in §1 |
+| **Google Sign-In / Google** | Authentication on Android; Google Play distribution & billing | Email / Google account identifiers; store purchase metadata |
+| **Sign in with Apple / Apple** | Authentication on iOS; App Store distribution & billing | Email (if you choose to share it) / Apple user identifier; store purchase metadata |
 | **RevenueCat** | In-app purchase receipt validation and purchase events for diamond packs | App user id, product ids, purchase/entitlement events |
 | **OpenRouter** (AI gateway) | Powers optional AI features via our Supabase Edge Functions | Content you submit for that feature (see below) |
 | **Open Food Facts** | Barcode lookup and food search | Barcode or search query you entered (no account password) |
@@ -171,9 +181,10 @@ that way.
 
 ### 3.3 Other users
 
-If you use social features, limited profile information and the messages or
-session data you share become visible to the people you interact with (friends,
-chat members, co-workout participants).
+If you use social features, limited profile information (including optional
+profile photo and last-seen status) and the messages or session data you share
+become visible to the people you interact with (friends, chat members,
+co-workout participants).
 
 ### 3.4 Legal requests
 
@@ -193,9 +204,9 @@ similar binding legal process).
 - **Delete account** — Settings → Account → "Delete account" runs a server-side
   deletion that removes your auth user and cascades deletion of associated app
   data (profile, workouts, templates, nutrition, friendships, chats you own as
-  applicable, weight log, wallet-related rows, etc.) and clears local app
-  storage. Deletion is **irreversible**. Operational backups may retain copies
-  for up to about 30 days before being overwritten.
+  applicable, weight log, wallet-related rows, profile photos, etc.) and clears
+  local app storage. Deletion is **irreversible**. Operational backups may retain
+  copies for up to about 30 days before being overwritten.
 - Without the app: follow
   [Delete your account](https://mishatokyo.github.io/solo-fitness-legal/account-delete.html).
 
@@ -219,7 +230,7 @@ use the app.
 ## 6. Security
 
 - Network traffic uses TLS.
-- Auth is handled by Supabase Auth; we do not see Google passwords.
+- Auth is handled by Supabase Auth; we do not see Google or Apple passwords.
 - Session tokens are stored on the device (AsyncStorage / app storage).
 - Database access uses Row-Level Security and least privilege where applicable.
 
