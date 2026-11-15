@@ -3,46 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Solo Fitness — Delete your account</title>
+  <title>Delete your account — Solo Fitness</title>
   <meta name="description" content="How to permanently delete your Solo Fitness account and data." />
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --panel: #14141c;
-      --text: #e8e8f0;
-      --muted: #9a9ab0;
-      --accent: #7c3aed;
-      --danger: #ff5470;
-      --border: #26262e;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
-    main { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
-    h1 { font-size: 28px; margin: 0 0 6px; }
-    h2 { font-size: 18px; margin: 28px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-    p, li { color: var(--text); }
-    .muted { color: var(--muted); font-size: 13px; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code { background: var(--panel); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
-    ol li { margin: 10px 0; }
-    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
-    .header img { width: 48px; height: 48px; border-radius: 10px; }
-    .header .brand { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 13px; color: var(--muted); }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin: 14px 0; }
-    .danger { color: var(--danger); font-weight: 600; }
-    .small { font-size: 13px; color: var(--muted); }
-    footer { color: var(--muted); font-size: 12px; margin-top: 48px; text-align: center; }
-  </style>
+  <meta name="theme-color" content="#07060d" />
+  <link rel="icon" href="./img/icon-256.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./site.css" />
 </head>
 <body>
-  <main>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./"><img src="./img/icon-256.png" alt="" />Solo Fitness</a>
+      <nav class="nav-links">
+        <a href="./privacy-policy.html">Privacy</a>
+        <a href="./terms-of-service.html">Terms</a>
+        <a href="./account-delete.html">Delete account</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="doc">
     <div class="header">
-      <img src="./icon-512.png" alt="Solo Fitness icon" />
+      <img src="./img/icon-256.png" alt="Solo Fitness icon" />
       <div>
         <div class="brand">Solo Fitness</div>
         <h1>Delete your account</h1>
-        <div class="muted">Updated 19 June 2026</div>
+        <div class="muted">Updated 15 November 2026</div>
       </div>
     </div>
 
@@ -81,8 +69,26 @@
       <li>every meal, nutrition goal, and custom food entry;</li>
       <li>your body-weight history and meal-slot configuration;</li>
       <li>your friendships (both directions);</li>
+      <li>your chat messages, voice messages, and reactions;</li>
+      <li>your profile photo;</li>
+      <li>your diamonds, unlocks, and feature credits;</li>
+      <li>the push-notification tokens of your devices;</li>
       <li>locally cached data on your device.</li>
     </ul>
+
+    <h2>Premium subscription</h2>
+    <div class="card">
+      <p>Deleting your Solo Fitness account does <strong>not</strong> cancel
+        Solo Fitness Premium. The yearly subscription is billed by the
+        App Store or Google Play. Cancel it there before you delete the
+        account, or it can keep renewing:</p>
+      <ul>
+        <li>iOS: Settings → Apple Account → Subscriptions</li>
+        <li>Android: Google Play → Payments &amp; subscriptions → Subscriptions</li>
+      </ul>
+      <p class="small">The app’s <em>Manage subscription</em> button opens the
+        same store screen.</p>
+    </div>
 
     <h2>What we keep</h2>
     <p>None of your personal data is retained. We may keep <strong>aggregated,
@@ -96,7 +102,19 @@
     <p>For more details see our
       <a href="./privacy-policy.html">Privacy Policy</a>.</p>
 
-    <footer>© 2026 Solo Fitness</footer>
+    
   </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div>© 2026 Solo Fitness · <a href="mailto:mikesot7@gmail.com">mikesot7@gmail.com</a></div>
+      <nav>
+        <a href="./">Home</a>
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./terms-of-service.html">Terms of Service</a>
+        <a href="./account-delete.html">Delete your account</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>

@@ -1,6 +1,6 @@
 # Solo Fitness — Privacy Policy
 
-**Effective date:** 27 July 2026  
+**Effective date:** 15 November 2026  
 **Contact:** mikesot7@gmail.com
 
 This Privacy Policy describes how the Solo Fitness mobile application
@@ -34,7 +34,8 @@ track you across other apps or websites for advertising.
 - **Nickname / display name** — chosen by you during onboarding (and later via
   paid nickname changes).
 - **Profile basics** — gender, age, height, and body weight entered during
-  onboarding or Settings.
+  onboarding or Settings, and optionally the gym chain you train at (chosen
+  from a list, not detected from your location).
 - **Preferences** — language/locale and cosmetic theme choices.
 
 ### 1.2 Fitness and health information
@@ -64,27 +65,37 @@ and does **not** read Apple Health / HealthKit or Google Fit by default.
 
 ### 1.4 Social and messaging information (optional)
 
-- **Friendships** — friend requests and accepted friendships. Nicknames (and
-  optional supporter badge) can be visible to friends.
+- **Friendships** — friend requests and accepted friendships. Nicknames, a
+  Premium status badge while Premium is active, and any older supporter badge
+  can be visible to friends.
 - **Profile photo (optional)** — if you upload an avatar, the image is stored on
   our servers and shown to friends in chat, lists, and the calendar. You can
   remove it in Settings.
 - **Presence / last activity** — when you use social features, a last-seen
   timestamp may be visible to accepted friends (for example to show online
   status).
-- **Direct messages and group chat messages** — content you send to other users.
+- **Direct messages and group chat messages** — text, replies, reactions, and
+  forwarded messages you send to other users.
+- **Voice messages** — audio you record and send in a chat, its length, and a
+  small waveform preview. Voice messages are deleted automatically **3 days**
+  after they are sent (see §4).
 - **Co-workout / live training sessions** — participants, session state, and
   related workout data shared for that session.
 - **Referral codes / invites** — if you use referral features.
 
 ### 1.5 Purchases and wallet
 
-- **Diamond balance, ledger, unlocks, and feature credits** — in-app currency
-  and entitlements stored on our servers.
+- **Premium status** — whether Solo Fitness Premium is active, the product
+  identifier, and renewal or expiry information, so the app can apply the
+  subscription benefits. Friends can see that you have the Premium badge while
+  it is active.
+- **Diamond balance, ledger, unlocks, and feature credits** — the in-app reward
+  currency and items stored on our servers. Diamonds are earned in the app. The
+  current app does not sell them for money.
 - **Purchase metadata** — product identifiers, transaction events, and
-  entitlement state received from RevenueCat / the app stores so we can credit
-  diamonds. We do **not** receive your full card number; payments are handled
-  by Google Play or the Apple App Store.
+  entitlement state received from RevenueCat / the app stores so we can turn
+  Premium on or off. We do **not** receive your full card number. Payments are
+  handled by Google Play or the Apple App Store.
 
 ### 1.6 Device permissions and media
 
@@ -92,22 +103,33 @@ You can deny any permission; related features will simply be limited.
 
 | Permission / media | How we use it |
 |---|---|
-| **Camera** | Barcode scanning for foods; optional meal photos for AI analysis. Barcode frames are processed for detection and are **not** stored as a video library. |
-| **Photo library** | Optional: pick a meal photo to analyze, or a profile photo to upload. |
-| **Microphone + speech recognition** | Optional: dictate meal notes. Speech is converted to text by the **on-device / OS speech recognizer**. We do **not** upload or store raw audio recordings. |
+| **Camera** | Barcode scanning for foods; optional meal photos and gym-equipment photos for AI analysis. Barcode frames are processed for detection and are **not** stored as a video library. |
+| **Photo library** | Optional: pick a meal or equipment photo to analyze, or a profile photo to upload. |
+| **Microphone** | Optional: record **voice messages** in chats. The recording is uploaded to our servers so the recipients can play it, and is deleted automatically 3 days after it is sent. |
+| **Speech recognition** | Optional: dictate meal notes. Speech is converted to text by the **on-device / OS speech recognizer**. Dictation audio is **not** uploaded or stored by us. |
 | **Profile photo upload** | Optional: photo you choose for your profile. Stored on our servers (Supabase Storage) and shown to friends when you use social features. Removed when you delete the photo or your account. |
 | **Meal photo thumbnails** | Compressed thumbnails are stored **only on your device** (about 30 days) for the day view. They are **not** synced as image files to our database. |
 | **AI meal photo request** | When you run AI meal-photo analysis, a compressed image is sent **for that request** to our backend and then to the AI provider (see §3). |
 | **Local notifications** | Optional: rest-timer alerts on your device when a set rest period ends (including lock-screen / Live Activity on iOS where supported). Scheduled locally; we do **not** receive notification content on our servers. |
+| **Push notifications** | Optional: alerts about new chat messages. See §1.7. |
 
-### 1.7 Product analytics (first-party)
+### 1.7 Push notifications (optional)
+
+If you allow notifications, we store your device's **push token**, platform
+(iOS / Android), and app language so we can alert you about new messages in
+your language. A message notification shows the sender's nickname and a short
+preview of the text (or "Voice message"). It is delivered through the Expo
+push service and Apple Push Notification service or Firebase Cloud Messaging.
+You can turn notifications off at any time in your device settings.
+
+### 1.8 Product analytics (first-party)
 
 We may store lightweight **product event** records in our database (for example
-onboarding completed, workout finished, shop purchase, shop redeem). These are
+onboarding completed, workout finished, Premium purchase, shop redeem). These are
 used to operate and improve the product. They are **not** used for advertising
 networks or cross-app tracking.
 
-### 1.8 What we do not collect for advertising
+### 1.9 What we do not collect for advertising
 
 We do **not** collect contacts, precise location, browsing history across other
 apps, or advertising IDs for ads. We do not run a third-party ad SDK in Solo
@@ -124,9 +146,11 @@ We use your information to:
 - sync your data across devices when you are signed in;
 - let friends find you by nickname (when they search) and power chat /
   co-workout features you choose to use;
-- process diamond purchases and redeem shop items / AI credits;
+- keep your Premium subscription status in sync and redeem shop items or AI
+  credits paid with diamonds;
+- deliver chat messages, voice messages, and new-message notifications;
 - run optional AI features you trigger (meal-note formatting, meal-photo
-  analysis, AI coach);
+  analysis, gym-equipment photo analysis, AI coach);
 - look up foods via public food databases when you search or scan barcodes;
 - diagnose reliability issues and understand product usage via first-party
   analytics events;
@@ -145,8 +169,8 @@ generate the feature response (see §3).
 ### 3.1 Primary storage
 
 Your account and app data are stored on [Supabase](https://supabase.com/)
-(PostgreSQL, Auth, Storage for profile photos, Edge Functions, and related
-infrastructure) under the developer's project. Connections use HTTPS/TLS. Access
+(PostgreSQL, Auth, Storage for profile photos and voice messages, Edge
+Functions, and related infrastructure) under the developer's project. Connections use HTTPS/TLS. Access
 is restricted with Row-Level Security so users generally only read/write their
 own rows, plus rows required for friendships, chats, and co-workouts they
 participate in.
@@ -155,10 +179,12 @@ participate in.
 
 | Service | Purpose | Data involved |
 |---|---|---|
-| **Supabase** | Auth, database, file storage (avatars), sync, Edge Functions, product analytics events | Account and app data described in §1 |
+| **Supabase** | Auth, database, file storage (profile photos, voice messages), sync, Edge Functions, product analytics events | Account and app data described in §1 |
+| **Expo (EAS)** | Delivering push notifications and app updates | Push token, notification content (sender nickname, message preview), basic device and app-version information |
+| **Apple Push Notification service / Firebase Cloud Messaging** | Final delivery of push notifications to your device | Push token and notification content |
 | **Google Sign-In / Google** | Authentication on Android; Google Play distribution & billing | Email / Google account identifiers; store purchase metadata |
 | **Sign in with Apple / Apple** | Authentication on iOS; App Store distribution & billing | Email (if you choose to share it) / Apple user identifier; store purchase metadata |
-| **RevenueCat** | In-app purchase receipt validation and purchase events for diamond packs | App user id, product ids, purchase/entitlement events |
+| **RevenueCat** | Subscription status and purchase events for Solo Fitness Premium | App user id, product ids, purchase/entitlement events |
 | **OpenRouter** (AI gateway) | Powers optional AI features via our Supabase Edge Functions | Content you submit for that feature (see below) |
 | **Open Food Facts** | Barcode lookup and food search | Barcode or search query you entered (no account password) |
 
@@ -169,7 +195,10 @@ participate in.
 2. **AI meal-photo analysis** (`analyze-meal-photo`) — a compressed meal image
    (and locale hints) is sent to OpenRouter vision models to estimate foods and
    macros.
-3. **AI coach** (`ai-trainer`) — your chat messages and, when needed for the
+3. **AI gym-equipment analysis** (`analyze-equipment-photo`) — a photo of gym
+   equipment you choose is sent to OpenRouter vision models to recognize the
+   machines and suggest exercises.
+4. **AI coach** (`ai-trainer`) — your chat messages and, when needed for the
    request, relevant profile / workout / nutrition context are sent to
    OpenRouter so the coach can answer.
 
@@ -195,8 +224,12 @@ similar binding legal process).
 
 ## 4. Data retention and deletion
 
-- Data is kept while your account exists, unless a feature says otherwise
-  (for example on-device meal photo thumbnails are purged after about 30 days).
+- Data is kept while your account exists, unless a feature says otherwise:
+  - **voice messages** (audio file and message) are deleted automatically
+    **3 days** after they are sent;
+  - on-device meal photo thumbnails are purged after about 30 days;
+  - **push tokens** are kept until the token stops working, the device signs in
+    to another account, or you delete your account.
 - You can delete individual workouts, meals, friends, and similar items from
   the relevant screens.
 - Local reset options in Settings (where available) clear data on that device;
@@ -210,20 +243,39 @@ similar binding legal process).
 - Without the app: follow
   [Delete your account](https://mishatokyo.github.io/solo-fitness-legal/account-delete.html).
 
-Purchases made through Google Play or the App Store remain subject to the
-store’s records and refund rules even after account deletion.
+Deleting your account does **not** cancel an active Premium subscription.
+Cancel it in the App Store or Google Play first. Purchases remain subject to
+the store’s records and refund rules even after account deletion.
 
 ---
 
 ## 5. Your rights
 
 Depending on where you live, you may have the right to access, correct, delete,
-or export personal data we hold about you (including under GDPR / CCPA where
-applicable). Use in-app deletion where possible, or email
-**mikesot7@gmail.com**. We aim to reply within 30 days.
+or export personal data we hold about you, to object to or restrict certain
+processing, and to withdraw consent at any time (including under the GDPR, UK
+GDPR, CCPA / CPRA, and Japan's APPI where applicable). Use in-app deletion
+where possible, or email **mikesot7@gmail.com**. We aim to reply within 30
+days. If you are in the EEA or UK, you can also complain to your local data
+protection authority.
 
-Children under 13 (or the equivalent minimum age in your country) should not
-use the app.
+### 5.1 Legal bases (EEA / UK)
+
+- **Contract** — to provide the app and the features you use (account, sync,
+  chats, Premium).
+- **Consent** — for optional device permissions (camera, photos, microphone,
+  notifications) and optional AI features you trigger. You can withdraw consent
+  in your device settings or by not using the feature.
+- **Legitimate interests** — to keep the service secure, prevent abuse, and
+  understand product usage through first-party analytics.
+- **Legal obligation** — where the law requires us to keep or disclose data.
+
+### 5.2 Children
+
+Solo Fitness is not directed at children. Children under 13 (or the minimum
+age for digital consent in your country, for example 16 in some EEA countries)
+should not use the app. If you believe a child has given us personal data,
+email us and we will delete it.
 
 ---
 
