@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Solo Fitness — level up for real</title>
   <meta name="description" content="RPG-inspired fitness app. Log every set, earn XP, climb from rank E to SSS, and raise a companion that evolves as you train." />
-  <meta name="theme-color" content="#07060d" />
+  <meta name="theme-color" content="#ffffff" />
   <meta property="og:title" content="Solo Fitness — level up for real" />
   <meta property="og:description" content="Log every set, earn XP, climb from rank E to SSS, and raise a companion that evolves as you train." />
   <meta property="og:image" content="https://mishatokyo.github.io/solo-fitness-legal/icon-512.png" />
@@ -14,58 +14,549 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./site.css" />
+  <style>
+    :root {
+      --v: #7C4DFF; --v-dark: #5E33E0; --v-soft: #B79CFF; --v-tint: #F3EEFF;
+      --frost: #4FD1E0; --frost-dark: #22A9BD; --frost-text: #138A9C; --frost-tint: #E8FAFC;
+      --royal: #FFC23D; --royal-dark: #F0951F; --royal-text: #B86A00; --royal-tint: #FFF6DE;
+      --ink: #2B2440; --text: #4B4563; --muted: #7A7493; --line: #ECE8F4;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; background: #fff; color: var(--text);
+      font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 18px; line-height: 1.55; font-weight: 600;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--v); }
+    h1, h2, h3 { font-weight: 900; line-height: 1.12; margin: 0; letter-spacing: -0.01em; }
+    p { margin: 0; }
+    .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+    /* ── Buttons (chunky, with a darker bottom lip) ─────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      min-height: 52px; padding: 10px 22px; border-radius: 16px; border: 0;
+      font: inherit; font-weight: 800; font-size: 16px; text-decoration: none; letter-spacing: .02em;
+      cursor: pointer; transition: transform .08s ease, box-shadow .08s ease, filter .15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover { filter: brightness(1.05); }
+    .btn:active { transform: translateY(4px); }
+    .btn:focus-visible { outline: 3px solid var(--royal); outline-offset: 3px; }
+    .btn-primary { background: var(--v); color: #fff; box-shadow: 0 4px 0 var(--v-dark); }
+    .btn-primary:active { box-shadow: 0 0 0 var(--v-dark); }
+    .btn-ghost { background: #fff; color: var(--v); border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line); }
+    .btn-ghost:active { box-shadow: 0 0 0 var(--line); }
+    .btn-white { background: #fff; color: var(--v-dark); box-shadow: 0 4px 0 #C9B6FF; }
+    .btn-white:active { box-shadow: 0 0 0 #C9B6FF; }
+    .btn-sm { min-height: 42px; padding: 8px 16px; font-size: 14px; border-radius: 13px; text-transform: uppercase; }
+
+    .store { justify-content: flex-start; text-align: left; line-height: 1.1; }
+    .store .ico {
+      flex: none; width: 34px; height: 34px; border-radius: 11px; background: #fff;
+      display: grid; place-items: center;
+    }
+    .store .ico svg { width: 20px; height: 20px; }
+    .btn-white .ico { background: var(--v-tint); }
+    .store small { display: block; font-size: 12px; font-weight: 700; opacity: .85; letter-spacing: .03em; }
+    .store b { display: block; font-size: 19px; font-weight: 900; letter-spacing: 0; }
+    .store-stack { display: grid; gap: 14px; width: 100%; max-width: 340px; }
+    .store-stack .btn { width: 100%; }
+
+    /* ── Nav ────────────────────────────────────────────────────────── */
+    .nav { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 2px solid var(--line); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 68px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--v); font-weight: 900; font-size: 24px; text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; }
+    .brand img { width: 36px; height: 36px; border-radius: 10px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a:not(.btn) { color: var(--muted); font-weight: 800; font-size: 15px; text-decoration: none; text-transform: uppercase; letter-spacing: .04em; }
+    .nav-links a:not(.btn):hover { color: var(--v); }
+
+    /* ── Hero ───────────────────────────────────────────────────────── */
+    .hero { padding: 56px 0 64px; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 48px; }
+    .hero-art { position: relative; display: grid; place-items: center; }
+    .hero-art .disc { position: absolute; width: 86%; aspect-ratio: 1; border-radius: 50%; background: var(--v-tint); }
+    .hero-art .pg { position: relative; width: min(440px, 100%); }
+    .hero-copy { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px; }
+    .hero h1 { font-size: clamp(32px, 4.6vw, 48px); color: var(--ink); max-width: 13em; }
+    .hero h1 span { color: var(--v); }
+    .hero .lead { font-size: 19px; max-width: 30em; color: var(--text); }
+    .hero-note { font-size: 14px; color: var(--muted); font-weight: 700; }
+
+    /* Floating decor (flat shapes) */
+    .deco { position: absolute; pointer-events: none; }
+    .deco.c1 { width: 22px; height: 22px; border-radius: 50%; background: var(--royal); top: 10%; left: 8%; }
+    .deco.c2 { width: 14px; height: 14px; border-radius: 50%; background: var(--frost); bottom: 16%; right: 6%; }
+    .deco.c3 { width: 18px; height: 18px; border-radius: 5px; background: var(--v-soft); top: 18%; right: 10%; transform: rotate(18deg); }
+
+    /* ── Rank strip ─────────────────────────────────────────────────── */
+    .ranks { border-top: 2px solid var(--line); border-bottom: 2px solid var(--line); padding: 18px 0 16px; }
+    .rank-row { display: flex; justify-content: space-between; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+    .rank-row::-webkit-scrollbar { display: none; }
+    .rank-row figure { margin: 0; flex: 0 0 auto; display: flex; align-items: center; gap: 8px; color: var(--muted); font-weight: 900; font-size: 15px; letter-spacing: .04em; }
+    .rank-row img { width: 36px; height: 36px; object-fit: contain; }
+    .rank-caption { text-align: center; color: var(--muted); font-size: 14px; font-weight: 800; margin-top: 10px; }
+
+    /* ── Feature rows ───────────────────────────────────────────────── */
+    .feat { padding: 72px 0; border-bottom: 2px solid var(--line); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 56px; }
+    .row.flip .art { order: 2; }
+    .art { position: relative; display: grid; place-items: center; min-height: 300px; }
+    .art .blob { position: absolute; inset: 6% 10%; border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%; }
+    .art .pg { position: relative; width: min(340px, 82%); }
+    .copy h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
+    .copy p { font-size: 18px; max-width: 30em; }
+    .copy p + p { margin-top: 12px; }
+    .t-violet h2 { color: var(--v); }   .t-violet .blob { background: var(--v-tint); }
+    .t-royal h2 { color: var(--royal-text); } .t-royal .blob { background: var(--royal-tint); }
+    .t-frost h2 { color: var(--frost-text); } .t-frost .blob { background: var(--frost-tint); }
+
+    .bubble {
+      position: absolute; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px;
+      box-shadow: 0 4px 0 rgba(0,0,0,.12);
+    }
+    .bubble svg { width: 30px; height: 30px; }
+    .bubble.small { width: 46px; height: 46px; border-radius: 15px; }
+    .bubble.small svg { width: 24px; height: 24px; }
+    .bubble img { width: 40px; height: 40px; object-fit: contain; }
+    .b-violet { background: var(--v); } .b-royal { background: var(--royal); } .b-frost { background: var(--frost); } .b-white { background: #fff; box-shadow: 0 4px 0 var(--line); }
+    .xp { position: absolute; padding: 6px 14px; border-radius: 14px; background: var(--royal); color: #4A2E00; font-weight: 900; font-size: 18px; box-shadow: 0 4px 0 var(--royal-dark); }
+    .duo { display: flex; justify-content: center; align-items: flex-end; gap: 0; position: relative; width: min(420px, 100%); }
+    .duo .pg { width: 50%; }
+    .duo .pg + .pg { width: 42%; margin-left: -4%; }
+
+    /* ── Companion evolution ────────────────────────────────────────── */
+    .center-head { text-align: center; max-width: 720px; margin: 0 auto 40px; }
+    .center-head h2 { font-size: clamp(30px, 4vw, 44px); color: var(--v); margin-bottom: 14px; }
+    .center-head p { font-size: 18px; }
+    .evo { display: flex; align-items: flex-end; justify-content: center; gap: 12px; }
+    .evo figure { margin: 0; flex: 1 1 0; max-width: 220px; text-align: center; }
+    .evo .pg { width: 100%; }
+    .evo figcaption { font-weight: 900; color: var(--ink); font-size: 20px; margin-top: 6px; }
+    .evo figcaption small { display: block; font-size: 13px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+    .evo .arrow { flex: none; align-self: center; width: 34px; height: 34px; border-radius: 50%; background: var(--v-tint); color: var(--v); display: grid; place-items: center; font-weight: 900; margin-bottom: 40px; }
+    .skins { display: flex; justify-content: center; gap: 16px; margin-top: 36px; flex-wrap: wrap; }
+    .skin { display: flex; align-items: center; gap: 12px; padding: 10px 20px 10px 10px; border-radius: 20px; border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line); background: #fff; }
+    .skin .pg { width: 72px; height: 72px; }
+    .skin b { display: block; color: var(--ink); font-weight: 900; font-size: 17px; }
+    .skin small { display: block; font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+    .skin.royal small { color: var(--royal-text); } .skin.frost small { color: var(--frost-text); }
+
+    /* ── Premium ────────────────────────────────────────────────────── */
+    .premium { padding: 72px 0; border-bottom: 2px solid var(--line); }
+    .premium-card { display: grid; grid-template-columns: 1fr 1.05fr; gap: 40px; align-items: start; background: var(--v-tint); border-radius: 28px; padding: 44px; }
+    .premium h2 { font-size: clamp(30px, 4vw, 42px); color: var(--v); margin: 8px 0 14px; }
+    .eyebrow { display: inline-block; font-size: 13px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--v); padding: 5px 12px; border-radius: 10px; box-shadow: 0 3px 0 var(--v-dark); }
+    .fine { font-size: 14px; color: var(--muted); margin-top: 16px !important; }
+    .perks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .perks li { display: flex; gap: 14px; align-items: center; background: #fff; border-radius: 16px; padding: 12px 16px; box-shadow: 0 4px 0 #E2D8FF; }
+    .perks .chk { flex: none; width: 30px; height: 30px; border-radius: 10px; background: var(--v); display: grid; place-items: center; }
+    .perks .chk svg { width: 16px; height: 16px; }
+    .perks b { display: block; color: var(--ink); font-weight: 900; font-size: 17px; line-height: 1.25; }
+    .perks span { display: block; color: var(--muted); font-size: 14px; font-weight: 700; }
+
+    /* ── Closing CTA band ───────────────────────────────────────────── */
+    .cta { background: var(--v); color: #fff; padding: 64px 0 72px; overflow: hidden; }
+    .cta-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+    .cta h2 { font-size: clamp(34px, 5vw, 54px); color: #fff; margin-bottom: 14px; }
+    .cta p { font-size: 19px; color: #EDE6FF; margin-bottom: 28px; max-width: 28em; }
+    .cta .store-stack { grid-template-columns: 1fr 1fr; max-width: 520px; }
+    .cta-art { position: relative; width: 300px; display: grid; place-items: center; }
+    .cta-art .ring { position: absolute; width: 92%; aspect-ratio: 1; border-radius: 50%; background: #8F66FF; }
+    .cta-art .pg { position: relative; width: 100%; }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    footer { background: var(--v-dark); color: #E4DAFF; padding: 28px 0 36px; font-size: 15px; font-weight: 700; }
+    .foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; }
+    footer a { color: #fff; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+
+    /* ── Real app screenshots in a CSS iPhone frame, inside feature art ─ */
+    .art.shots { min-height: 560px; }
+    .phones { position: relative; display: flex; justify-content: center; align-items: center; }
+    .phone {
+      position: relative; width: 240px; aspect-ratio: 1206 / 2622; padding: 9px; flex: 0 0 auto;
+      border-radius: 42px; background: #1B1726;
+      box-shadow: 0 0 0 2px #3A3450 inset, 0 26px 50px -20px rgba(43, 36, 64, .5), 0 6px 0 #D8D2E8;
+    }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 34px; background: #F6F4FB; }
+    .phones.pair .phone:first-child { transform: rotate(-6deg) translate(34px, -10px); }
+    .phones.pair .phone:last-child { transform: rotate(5deg) translate(-34px, 34px); z-index: 1; }
+    .art .pg.mini { position: absolute; z-index: 2; width: 150px; bottom: -6px; left: 2%; }
+    .art.shots .flip-mini { left: auto; right: 2%; }
+    @media (max-width: 560px) {
+      .art.shots { min-height: 440px; }
+      .phone { width: 190px; border-radius: 34px; padding: 7px; }
+      .phone img { border-radius: 28px; }
+      .phones.pair .phone { width: 160px; }
+      .phones.pair .phone:first-child { transform: rotate(-6deg) translate(22px, -8px); }
+      .phones.pair .phone:last-child { transform: rotate(5deg) translate(-22px, 24px); }
+      .art .pg.mini { width: 110px; }
+    }
+    @media (max-width: 860px) {
+      .hero { padding: 28px 0 48px; }
+      .hero-grid, .row, .premium-card, .cta-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-art .pg { width: min(320px, 78vw); }
+      .row.flip .art { order: 0; }
+      .row { text-align: center; }
+      .copy p { margin: 0 auto; }
+      .art { min-height: 0; }
+      .feat, .premium { padding: 52px 0; }
+      .premium-card { padding: 28px 20px; }
+      .cta { text-align: center; }
+      .cta p { margin-left: auto; margin-right: auto; }
+      .cta .store-stack { margin: 0 auto; }
+      .cta-art { width: 220px; margin: 0 auto; order: -1; }
+      .nav-links a:not(.btn) { display: none; }
+    }
+    @media (max-width: 560px) {
+      body { font-size: 17px; }
+      .brand { font-size: 20px; }
+      .brand img { width: 32px; height: 32px; }
+      .cta .store-stack { grid-template-columns: 1fr; max-width: 340px; }
+      .evo { gap: 4px; }
+      .evo .arrow { width: 24px; height: 24px; font-size: 13px; margin-bottom: 52px; }
+      .evo figcaption { font-size: 16px; }
+      .bubble { width: 46px; height: 46px; border-radius: 15px; }
+      .bubble svg { width: 24px; height: 24px; }
+      .bubble.small { width: 38px; height: 38px; }
+      .bubble.small svg { width: 20px; height: 20px; }
+      .rank-row { justify-content: flex-start; gap: 18px; }
+    }
+    @media (max-width: 380px) {
+      .btn-sm { padding: 8px 12px; font-size: 13px; }
+      .brand { font-size: 18px; gap: 8px; }
+    }
+
+    /* ── Companion SVG ──────────────────────────────────────────────────
+       Geometry is the app's FlatCompanion (src/ui/blob/FlatCompanion.tsx),
+       shifted by +2 so the viewBox starts at 0. Animated parts sit inside a
+       translate(pivot) group, so a plain CSS rotate/scale turns about the pivot. */
+    .pg { display: block; overflow: visible;
+      --armor: #7C4DFF; --shade: #5E33E0; --scale: #B79CFF; --skin: #FFF0E6; --gem: #FFC23D; --ink: #2B1B3D; }
+    .pg.frost { --armor: #4FD1E0; --shade: #22A9BD; --scale: #C2F3F8; --skin: #F2FDFF; --gem: #EE8FC4; --ink: #123A4A; }
+    .pg.royal { --armor: #FFC23D; --shade: #F0951F; --scale: #FFE7A3; --skin: #FFF6E5; --gem: #7C4DFF; --ink: #4A2E00; }
+    .pg g { transform-box: view-box; transform-origin: 0 0; }
+    .fa { fill: var(--armor); } .fs { fill: var(--shade); } .fk { fill: var(--skin); }
+    .fg { fill: var(--gem); } .fi { fill: var(--ink); } .fsc { fill: var(--scale); }
+    .ss { fill: none; stroke: var(--scale); stroke-linecap: round; }
+    .si { fill: none; stroke: var(--ink); stroke-linecap: round; }
+
+    /* Idle */
+    .breathe { animation: breathe 1.8s ease-in-out infinite; }
+    .wag { animation: wag 1.2s ease-in-out infinite; }
+    .wag.fast { animation-duration: .4s; }
+    @keyframes breathe { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(.975, 1.035); } }
+    @keyframes wag { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+
+    /* Hero: wave + occasional hop */
+    .wave { transform: rotate(100deg); animation: wave .7s ease-in-out infinite; }
+    @keyframes wave { 0%, 100% { transform: rotate(80deg); } 50% { transform: rotate(125deg); } }
+    .hop { animation: hop 3.2s ease-in-out infinite; }
+    @keyframes hop {
+      0%, 70%, 100% { transform: translateY(0) scale(1, 1); }
+      74% { transform: translateY(0) scale(1.08, .9); }
+      80% { transform: translateY(-7px) scale(.95, 1.07); }
+      86% { transform: translateY(0) scale(1.08, .9); }
+      90% { transform: translateY(0) scale(1, 1); }
+    }
+
+    /* Lift: dumbbell press, 2.6s */
+    .lift-body { animation: liftBody 2.6s ease-in-out infinite; }
+    .lift-armL { animation: liftArmL 2.6s ease-in-out infinite; }
+    .lift-armR { animation: liftArmR 2.6s ease-in-out infinite; }
+    .lift-bell { transform: translate(32px, 44px); animation: liftBell 2.6s ease-in-out infinite; }
+    .lift-eyes { animation: liftEyes 2.6s linear infinite; }
+    @keyframes liftBody { 0%, 14%, 22%, 42%, 50%, 100% { transform: scale(1, 1); } 18%, 46% { transform: scale(1.07, .92); } }
+    @keyframes liftArmL { 0%, 10%, 72%, 100% { transform: rotate(0); } 16%, 38%, 62% { transform: rotate(50deg); } 22%, 32%, 44%, 54% { transform: rotate(110deg); } }
+    @keyframes liftArmR { 0%, 10%, 72%, 100% { transform: rotate(0); } 16%, 38%, 62% { transform: rotate(-50deg); } 22%, 32%, 44%, 54% { transform: rotate(-110deg); } }
+    @keyframes liftBell {
+      0% { transform: translate(32px, 44px) scale(0); }
+      8% { transform: translate(32px, 44px) scale(1.2); }
+      12% { transform: translate(32px, 44px) scale(1); }
+      16%, 38%, 62% { transform: translate(32px, 27.8px) scale(1); }
+      22%, 32%, 44%, 54% { transform: translate(32px, 8px) scale(1); }
+      72%, 78% { transform: translate(32px, 44px) scale(1); }
+      86%, 100% { transform: translate(32px, 44px) scale(0); }
+    }
+    @keyframes liftEyes { 0%, 21%, 33%, 43%, 55%, 100% { transform: scaleY(1); } 22%, 32%, 44%, 54% { transform: scaleY(.65); } }
+
+    /* Apple: pops out, three chomps, hop — 3.4s */
+    .ap-body { animation: apBody 3.4s ease-in-out infinite; }
+    .ap-armR { transform: rotate(-15deg); animation: apArmR 3.4s ease-in-out infinite; }
+    .ap-armL { animation: apArmL 3.4s ease-in-out infinite; }
+    .ap-apple { transform: translate(53px, 38px); animation: apApple 3.4s ease-in-out infinite; }
+    .ap-mouth { opacity: 0; animation: apMouth 3.4s linear infinite; }
+    .ap-smile { animation: apSmile 3.4s linear infinite; }
+    .ap-eyes { animation: apEyes 3.4s linear infinite; }
+    .ap-crumbs { opacity: 0; animation: apCrumbs 3.4s ease-out infinite; }
+    @keyframes apBody {
+      0%, 25%, 31%, 39%, 45%, 53%, 59%, 82%, 92%, 100% { transform: translateY(0) scale(1, 1); }
+      28%, 42%, 56% { transform: translateY(0) scale(1.07, .91); }
+      87% { transform: translateY(-6.8px) scale(.97, 1.06); }
+    }
+    @keyframes apArmR { 0% { transform: rotate(0); } 6% { transform: rotate(35deg); } 14% { transform: rotate(-15deg); } 22%, 60% { transform: rotate(-60deg); } 68%, 100% { transform: rotate(0); } }
+    @keyframes apArmL { 0%, 14% { transform: rotate(0); } 22%, 60% { transform: rotate(20deg); } 66%, 100% { transform: rotate(0); } }
+    @keyframes apApple {
+      0%, 4% { transform: translate(53px, 41px) scale(0) rotate(-40deg); }
+      10% { transform: translate(53px, 39px) scale(1.25) rotate(-12deg); }
+      14% { transform: translate(53px, 38px) scale(1) rotate(0); }
+      22%, 28% { transform: translate(32px, 46.5px) scale(.85); }
+      30%, 42% { transform: translate(32px, 46.5px) scale(.62); }
+      44%, 56% { transform: translate(32px, 46.5px) scale(.4); }
+      58%, 100% { transform: translate(32px, 46.5px) scale(0); }
+    }
+    @keyframes apMouth {
+      0%, 20%, 28%, 35%, 42%, 49%, 56%, 84%, 92%, 100% { opacity: 0; }
+      24%, 38%, 52%, 86% { opacity: 1; }
+    }
+    @keyframes apSmile {
+      0%, 20%, 28%, 35%, 42%, 49%, 56%, 84%, 92%, 100% { opacity: 1; }
+      24%, 38%, 52%, 86% { opacity: 0; }
+    }
+    @keyframes apEyes { 0%, 26%, 34%, 40%, 48%, 54%, 62%, 100% { transform: scaleY(1); } 29%, 43%, 57% { transform: scaleY(.65); } }
+    @keyframes apCrumbs {
+      0%, 27.9% { opacity: 0; transform: scale(.4); }
+      28%, 42%, 56% { opacity: 1; transform: scale(.4); }
+      36%, 50%, 64% { opacity: 0; transform: scale(1.8); }
+      36.1%, 50.1%, 64.1%, 100% { opacity: 0; transform: scale(.4); }
+    }
+
+    /* Phone: taps, a heart pops — 3.2s */
+    .ph-body { transform: rotate(-6deg); }
+    .ph-armR { transform: rotate(-55deg); }
+    .ph-armL { animation: phArmL 3.2s ease-in-out infinite; }
+    .ph-phone { transform: translate(40px, 46px) rotate(-12deg); }
+    .ph-flash { opacity: 0; animation: phFlash 3.2s linear infinite; }
+    .ph-heart { opacity: 0; transform: translate(44px, 22px) scale(1); animation: phHeart 3.2s ease-out infinite; }
+    .ph-mouth { opacity: 0; animation: phMouth 3.2s linear infinite; }
+    .ph-smile { animation: phSmile 3.2s linear infinite; }
+    .ph-hop { animation: phHop 3.2s ease-in-out infinite; }
+    @keyframes phArmL { 0%, 22%, 28%, 32%, 38%, 42%, 48%, 100% { transform: rotate(0); } 25%, 35%, 45% { transform: rotate(30deg); } }
+    @keyframes phFlash { 0%, 25%, 31%, 35%, 41%, 45%, 51%, 100% { opacity: 0; } 27%, 37%, 47% { opacity: .9; } }
+    @keyframes phHeart {
+      0%, 52% { opacity: 0; transform: translate(44px, 26px) scale(0); }
+      54% { opacity: 1; }
+      58% { transform: translate(44px, 26px) scale(1.35); }
+      62% { transform: translate(44px, 25.5px) scale(1); }
+      78% { opacity: 1; }
+      86%, 100% { opacity: 0; transform: translate(44px, 18px) scale(1); }
+    }
+    @keyframes phMouth { 0%, 52%, 74%, 100% { opacity: 0; } 56%, 70% { opacity: 1; } }
+    @keyframes phSmile { 0%, 52%, 74%, 100% { opacity: 1; } 56%, 70% { opacity: 0; } }
+    @keyframes phHop { 0%, 52%, 60%, 100% { transform: translateY(0); } 56% { transform: translateY(-3.4px); } }
+
+    /* Rope: skipping, 1s per turn */
+    .rp-body { animation: rpBody 1s linear infinite; }
+    .rp-back { animation: rpBack 1s linear infinite; }
+    .rp-front { opacity: 0; animation: rpFront 1s linear infinite; }
+    .rp-armL { animation: rpArmL 1s linear infinite; }
+    .rp-armR { animation: rpArmR 1s linear infinite; }
+    .rp-late .rp-body, .rp-late .rp-back, .rp-late .rp-front, .rp-late .rp-armL, .rp-late .rp-armR { animation-delay: -.5s; }
+    @keyframes rpBody {
+      0%, 100% { transform: translateY(0) scale(1.06, .92); }
+      12%, 25%, 75%, 88% { transform: translateY(0) scale(1, 1); }
+      38% { transform: translateY(-5px) scale(.98, 1.03); }
+      50% { transform: translateY(-8.8px) scale(.97, 1.05); }
+      62% { transform: translateY(-5px) scale(.98, 1.03); }
+    }
+    @keyframes rpBack {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      25% { opacity: 1; transform: scaleY(0); }
+      25.1%, 74.9% { opacity: 0; transform: scaleY(0); }
+      75% { opacity: 1; transform: scaleY(0); }
+    }
+    @keyframes rpFront {
+      0%, 24.9% { opacity: 0; transform: scaleY(0); }
+      25% { opacity: 1; transform: scaleY(0); }
+      50% { opacity: 1; transform: scaleY(-.55); }
+      75% { opacity: 1; transform: scaleY(0); }
+      75.1%, 100% { opacity: 0; transform: scaleY(0); }
+    }
+    @keyframes rpArmL { 0%, 50%, 100% { transform: rotate(-10deg); } 25% { transform: rotate(4deg); } 75% { transform: rotate(-24deg); } }
+    @keyframes rpArmR { 0%, 50%, 100% { transform: rotate(10deg); } 25% { transform: rotate(-4deg); } 75% { transform: rotate(24deg); } }
+
+    /* Cheer: jump with both arms up — 1.5s */
+    .ch-body { animation: chBody 1.5s ease-in-out infinite; }
+    .ch-armL { transform: rotate(80deg); animation: chArmL 1.5s ease-in-out infinite; }
+    .ch-armR { transform: rotate(-80deg); animation: chArmR 1.5s ease-in-out infinite; }
+    .ch-spark { animation: chSpark 1.5s ease-out infinite; }
+    @keyframes chBody {
+      0% { transform: translateY(0) scale(1, 1); }
+      12% { transform: translateY(2px) scale(1.12, .84); }
+      20% { transform: translateY(-6.8px) scale(.9, 1.12); }
+      36% { transform: translateY(-11.6px) scale(.97, 1.03); }
+      46% { transform: translateY(.7px) scale(1.14, .84); }
+      54%, 100% { transform: translateY(0) scale(1, 1); }
+    }
+    @keyframes chArmL { 0%, 10%, 60%, 100% { transform: rotate(0); } 20%, 46% { transform: rotate(80deg); } }
+    @keyframes chArmR { 0%, 10%, 60%, 100% { transform: rotate(0); } 20%, 46% { transform: rotate(-80deg); } }
+    @keyframes chSpark {
+      0%, 16% { opacity: 0; transform: scale(.3); }
+      20% { opacity: 1; }
+      26% { transform: scale(1.15); }
+      36% { transform: scale(1); }
+      42% { opacity: 1; }
+      52%, 100% { opacity: 0; transform: scale(1.25); }
+    }
+
+    .d1 { animation-delay: -.6s !important; } .d2 { animation-delay: -1.2s !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .pg, .pg * { animation: none !important; }
+      .rp-front, .ph-heart, .ap-crumbs { opacity: 0 !important; }
+      .btn { transition: none; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Shared companion parts (app geometry, viewBox -2 -2 68 68 → drawn inside translate(2 2)). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="pg-tail">
+        <path class="fa" d="M44 47 C55 49 61 42 58 34 C56 29 50 30 51 35 C52 39 49 41 45 40 Z" />
+        <path class="ss" stroke-width="1.5" d="M52 41.5 Q54.5 43.5 57 40.5 M53 36 Q55 37.5 57.5 35.5" />
+      </g>
+      <path id="pg-spike" class="fs" d="M56 36 L62 29 L59.5 38 Z" />
+      <g id="pg-horns">
+        <path class="fa" d="M20 25 L14 10 L27 19 Z M44 25 L50 10 L37 19 Z" />
+        <path class="fs" d="M20 25 L14 10 L20 17 Z M44 25 L50 10 L44 17 Z" />
+      </g>
+      <g id="pg-body">
+        <ellipse class="fs" cx="25" cy="57.5" rx="5.5" ry="3.2" />
+        <ellipse class="fs" cx="39" cy="57.5" rx="5.5" ry="3.2" />
+        <path class="fa" d="M32 18 C45 18 50 30 50 41 C50 52 42 58 32 58 C22 58 14 52 14 41 C14 30 19 18 32 18 Z" />
+        <path class="fs" d="M14.5 44 C17 52 24 58 32 58 C40 58 47 52 49.5 44 C45 50 39 53 32 53 C25 53 19 50 14.5 44 Z" />
+        <path class="ss" stroke-width="1.6" d="M23 24.5 Q26.5 28 30 25 M34 25 Q37.5 28 41 24.5 M17.5 30 Q19.5 32.5 22 30.5 M42 30.5 Q44.5 32.5 46.5 30" />
+        <path class="fk" d="M18 38 C18 34 20 32 23 32 C25 28 29 27 32 29 C35 27 39 28 41 32 C44 32 46 34 46 38 C46 47 40 53 32 53 C24 53 18 47 18 38 Z" />
+        <ellipse cx="21.4" cy="42.6" rx="2.6" ry="1.8" fill="#FF8FB1" fill-opacity=".6" />
+        <ellipse cx="42.6" cy="42.6" rx="2.6" ry="1.8" fill="#FF8FB1" fill-opacity=".6" />
+        <ellipse class="fi" cx="32" cy="41.6" rx="1.15" ry=".8" />
+      </g>
+      <g id="pg-gem">
+        <path class="fg" d="M32 18 L35.2 22.5 L32 27 L28.8 22.5 Z" />
+        <path d="M32 18 L35.2 22.5 L32 22.5 Z" fill="#fff" fill-opacity=".55" />
+      </g>
+      <path id="pg-eyes" class="si" stroke-width="1.9" d="M22.2 37.4 Q25.6 33.2 29 37.4 M35 37.4 Q38.4 33.2 41.8 37.4" />
+      <path id="pg-brows" class="si" stroke-width="1.8" d="M21.4 31 L28.4 32.4 M42.6 31 L35.6 32.4" />
+      <path id="pg-smile" class="si" stroke-width="1.3" stroke-linejoin="round" d="M28.8 43.6 Q30.4 45.6 32 43.8 Q33.6 45.6 35.2 43.6" />
+      <g id="pg-mouth">
+        <path d="M28.4 43.4 Q32 44.2 35.6 43.4 Q34.8 48.6 32 48.6 Q29.2 48.6 28.4 43.4 Z" fill="#4A1E3A" />
+        <path d="M29.8 46.9 Q32 45.4 34.2 46.9 Q33.2 48.6 32 48.6 Q30.8 48.6 29.8 46.9 Z" fill="#FF6F91" />
+      </g>
+      <path id="pg-armL" class="fs" d="M16.5 42 C11 40 8 44 10.5 47.5 C12.5 50 16 48.5 17.5 46 Z" />
+      <path id="pg-armR" class="fs" d="M47.5 42 C53 40 56 44 53.5 47.5 C51.5 50 48 48.5 46.5 46 Z" />
+      <ellipse id="pg-shadow" cx="32" cy="60.6" rx="17" ry="2.4" fill="#2B1B3D" fill-opacity=".08" />
+
+      <!-- Props, drawn around (32, 32). -->
+      <g id="pr-apple">
+        <path d="M32 28.5 C29.5 26.5 26 28 26 32 C26 36 29 38.5 30.8 38 C31.5 37.8 32.5 37.8 33.2 38 C35 38.5 38 36 38 32 C38 28 34.5 26.5 32 28.5 Z" fill="#FF5A5F" />
+        <path d="M27.5 33.5 C28 36 29.5 37.5 30.8 38 C31.5 37.8 32.5 37.8 33.2 38 C34.5 37.5 36 36 36.5 33.5 C35 35.5 29 35.5 27.5 33.5 Z" fill="#E03A48" />
+        <ellipse cx="29.2" cy="30.4" rx="1.1" ry="1.6" fill="#fff" fill-opacity=".6" />
+        <path d="M32 28.5 C32 27 32.6 26 33.4 25.4" stroke="#6B3B1F" stroke-width="1.3" stroke-linecap="round" fill="none" />
+        <path d="M32.8 26.2 C34.5 24.3 37 24.6 37.6 25.6 C36 27.2 34 27.3 32.8 26.2 Z" fill="#3DBE5B" />
+      </g>
+      <g id="pr-crumbs">
+        <circle cx="27" cy="44" r=".9" fill="#FF5A5F" />
+        <circle cx="37.5" cy="43.5" r=".8" fill="#FF5A5F" />
+        <circle cx="29" cy="50" r=".7" fill="#FF5A5F" />
+        <circle cx="35.5" cy="50.5" r=".9" fill="#FFF0E6" />
+      </g>
+      <g id="pr-phone">
+        <rect x="27.5" y="24.5" width="9" height="15" rx="2.2" fill="#24222E" />
+        <rect class="fsc" x="28.6" y="26" width="6.8" height="11.6" rx="1.2" />
+        <rect class="fa" x="29.6" y="27.4" width="4.8" height="1.4" rx=".7" />
+        <rect x="29.6" y="30" width="3.4" height="1.2" rx=".6" fill="#fff" fill-opacity=".8" />
+        <rect x="29.6" y="32.2" width="4.2" height="1.2" rx=".6" fill="#fff" fill-opacity=".8" />
+      </g>
+      <rect id="pr-flash" x="28.6" y="26" width="6.8" height="11.6" rx="1.2" fill="#fff" />
+      <path id="pr-heart" d="M32 36 C26 32 26.5 27 29.5 27 C31 27 31.7 28 32 28.8 C32.3 28 33 27 34.5 27 C37.5 27 38 32 32 36 Z" fill="#FF4D6D" />
+      <g id="pr-dumbbell">
+        <rect x="21" y="30.8" width="22" height="2.4" rx="1.2" fill="#8E8EA0" />
+        <rect x="18.5" y="26.5" width="4.6" height="11" rx="1.8" fill="#FFB020" />
+        <rect x="40.9" y="26.5" width="4.6" height="11" rx="1.8" fill="#FFB020" />
+        <rect x="15.6" y="28.8" width="3.2" height="6.4" rx="1.3" fill="#E08A00" />
+        <rect x="45.2" y="28.8" width="3.2" height="6.4" rx="1.3" fill="#E08A00" />
+      </g>
+      <path id="pr-rope" d="M10.5 47 Q32 -14 53.5 47" stroke="#FF5FA2" stroke-width="1.6" stroke-linecap="round" fill="none" />
+      <g id="pr-sparkles" fill="#FFD84D">
+        <path d="M10 18 L11.2 21.8 L15 23 L11.2 24.2 L10 28 L8.8 24.2 L5 23 L8.8 21.8 Z" />
+        <path d="M54 12 L54.9 14.9 L57.8 15.8 L54.9 16.7 L54 19.6 L53.1 16.7 L50.2 15.8 L53.1 14.9 Z" />
+        <path d="M57 30 L57.6 31.9 L59.5 32.5 L57.6 33.1 L57 35 L56.4 33.1 L54.5 32.5 L56.4 31.9 Z" />
+      </g>
+    </defs>
+  </svg>
+
   <header class="nav">
-    <div class="nav-inner">
+    <div class="wrap nav-inner">
       <a class="brand" href="./"><img src="./img/icon-256.png" alt="" />Solo Fitness</a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Main">
         <a href="#features">Features</a>
         <a href="#companion">Companion</a>
         <a href="#premium">Premium</a>
-        <a class="btn" href="#download">Get the app</a>
+        <a class="btn btn-primary btn-sm" href="#download">Get the app</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- Hero -->
+    <!-- ── Hero ─────────────────────────────────────────────────────── -->
     <section class="hero">
       <div class="wrap hero-grid">
-        <div>
-          <span class="pill"><img src="./img/rank-S.png" alt="" />RPG-inspired fitness app</span>
-          <h1>Train. Earn XP.<br /><span class="grad">Level up for real.</span></h1>
-          <p class="lead">Every set you log turns into experience. Climb from rank E to SSS, beat your streaks, and raise a companion that grows stronger with you.</p>
-          <div class="store-row" id="download">
-            <a class="store" href="https://apps.apple.com/app/id6791850301" rel="noopener">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.76c-.03-2.72 2.22-4.03 2.32-4.1-1.27-1.85-3.24-2.1-3.93-2.13-1.67-.17-3.27.99-4.12.99-.86 0-2.16-.97-3.55-.94-1.83.03-3.51 1.06-4.45 2.69-1.9 3.29-.49 8.16 1.36 10.83.9 1.31 1.98 2.78 3.39 2.73 1.36-.05 1.87-.88 3.51-.88 1.64 0 2.1.88 3.54.85 1.46-.02 2.39-1.33 3.28-2.65 1.04-1.52 1.46-3 1.49-3.07-.03-.02-2.85-1.1-2.88-4.32zM13.67 4.77c.75-.91 1.25-2.17 1.11-3.43-1.08.04-2.38.72-3.15 1.63-.69.8-1.3 2.08-1.14 3.31 1.2.09 2.43-.61 3.18-1.51z"/></svg>
-              <span><small>Download on the</small><b>App Store</b></span>
-            </a>
-            <a class="store" href="https://play.google.com/store/apps/details?id=com.solofitness.app" rel="noopener">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 2.2c-.3.3-.5.8-.5 1.4v16.8c0 .6.2 1.1.5 1.4l9.4-9.8z"/><path fill="#FBBC04" d="m16.1 15.2-3.1-3.2 3.1-3.2 3.7 2.1c1.1.6 1.1 1.6 0 2.2z"/><path fill="#EA4335" d="m16.1 15.2-3.1-3.2-9.4 9.8c.4.4 1 .4 1.7.1z"/><path fill="#4285F4" d="M16.1 8.8 5.3 2.1c-.7-.4-1.3-.3-1.7.1l9.4 9.8z"/></svg>
-              <span><small>Get it on</small><b>Google Play</b></span>
-            </a>
-          </div>
-          <p class="hero-note">Free to start. Optional Premium yearly subscription.</p>
+        <div class="hero-art" aria-hidden="true">
+          <div class="disc"></div>
+          <span class="deco c1"></span><span class="deco c2"></span><span class="deco c3"></span>
+          <!-- Waving companion (Guardian form, Shadow violet). -->
+          <svg class="pg" viewBox="0 0 68 68" role="img" aria-label="Solo Fitness pangolin companion waving">
+            <g transform="translate(2 2)">
+              <use href="#pg-shadow" />
+              <g transform="translate(32 60)"><g class="hop"><g transform="translate(-32 -60)">
+                <g transform="translate(32 60)"><g class="breathe"><g transform="translate(-32 -60)">
+                  <g transform="translate(46 42)"><g class="wag"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                  <use href="#pg-body" />
+                  <use href="#pg-gem" />
+                  <use href="#pg-eyes" />
+                  <use href="#pg-smile" />
+                  <g transform="translate(16.5 43.5)"><g class="wave"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                  <use href="#pg-armR" />
+                </g></g></g>
+              </g></g></g>
+            </g>
+          </svg>
         </div>
 
-        <div class="stage" aria-hidden="true">
-          <div class="orb"></div>
-          <div class="ring"></div>
-          <img class="hero-pet" src="./img/form3-titan.webp" alt="" />
-          <img class="badge b1" src="./img/rank-S.png" alt="" />
-          <img class="badge b2" src="./img/rank-A.png" alt="" />
-          <img class="badge b3" src="./img/rank-SSS.png" alt="" />
-          <div class="chip-xp">+120 <span>XP</span> · Bench press<div class="bar"><i></i></div></div>
+        <div class="hero-copy">
+          <h1>Train. Earn XP.<br /><span>Level up for real.</span></h1>
+          <p class="lead">Every set you log turns into experience. Climb from rank E to SSS, beat your streaks, and raise a companion that grows stronger with you.</p>
+          <div class="store-stack" id="download">
+            <a class="btn btn-primary store" href="https://apps.apple.com/app/id6791850301" rel="noopener">
+              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1d1d1f" d="M16.37 12.76c-.03-2.72 2.22-4.03 2.32-4.1-1.27-1.85-3.24-2.1-3.93-2.13-1.67-.17-3.27.99-4.12.99-.86 0-2.16-.97-3.55-.94-1.83.03-3.51 1.06-4.45 2.69-1.9 3.29-.49 8.16 1.36 10.83.9 1.31 1.98 2.78 3.39 2.73 1.36-.05 1.87-.88 3.51-.88 1.64 0 2.1.88 3.54.85 1.46-.02 2.39-1.33 3.28-2.65 1.04-1.52 1.46-3 1.49-3.07-.03-.02-2.85-1.1-2.88-4.32zM13.67 4.77c.75-.91 1.25-2.17 1.11-3.43-1.08.04-2.38.72-3.15 1.63-.69.8-1.3 2.08-1.14 3.31 1.2.09 2.43-.61 3.18-1.51z"/></svg></span>
+              <span><small>Download on the</small><b>App Store</b></span>
+            </a>
+            <a class="btn btn-primary store" href="https://play.google.com/store/apps/details?id=com.solofitness.app" rel="noopener">
+              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 2.2c-.3.3-.5.8-.5 1.4v16.8c0 .6.2 1.1.5 1.4l9.4-9.8z"/><path fill="#FBBC04" d="m16.1 15.2-3.1-3.2 3.1-3.2 3.7 2.1c1.1.6 1.1 1.6 0 2.2z"/><path fill="#EA4335" d="m16.1 15.2-3.1-3.2-9.4 9.8c.4.4 1 .4 1.7.1z"/><path fill="#4285F4" d="M16.1 8.8 5.3 2.1c-.7-.4-1.3-.3-1.7.1l9.4 9.8z"/></svg></span>
+              <span><small>Get it on</small><b>Google Play</b></span>
+            </a>
+            <a class="btn btn-ghost" href="#features">See what's inside</a>
+          </div>
+          <p class="hero-note">Free to start. Optional Premium yearly subscription.</p>
         </div>
       </div>
     </section>
 
-    <!-- Rank ladder -->
-    <section class="ladder">
+    <!-- ── Rank strip ───────────────────────────────────────────────── -->
+    <section class="ranks" aria-label="Ranks">
       <div class="wrap">
-        <div class="ladder-row">
+        <div class="rank-row">
           <figure><img src="./img/rank-E.png" alt="Rank E" loading="lazy" /><figcaption>E</figcaption></figure>
           <figure><img src="./img/rank-D.png" alt="Rank D" loading="lazy" /><figcaption>D</figcaption></figure>
           <figure><img src="./img/rank-C.png" alt="Rank C" loading="lazy" /><figcaption>C</figcaption></figure>
@@ -75,119 +566,315 @@
           <figure><img src="./img/rank-SS.png" alt="Rank SS" loading="lazy" /><figcaption>SS</figcaption></figure>
           <figure><img src="./img/rank-SSS.png" alt="Rank SSS" loading="lazy" /><figcaption>SSS</figcaption></figure>
         </div>
-        <p class="ladder-caption">Eight ranks. One way up: show up and train.</p>
+        <p class="rank-caption">Eight ranks. One way up: show up and train.</p>
       </div>
     </section>
 
-    <!-- Features -->
-    <section class="features" id="features">
-      <div class="wrap">
-        <span class="eyebrow">Everything in one app</span>
-        <h2 class="section-title">Your training, turned into a game you want to win.</h2>
-        <p class="section-lead">Workouts, nutrition, friends and an AI coach — built so the next session is always the one you look forward to.</p>
 
-        <div class="grid">
-          <article class="card">
-            <div class="ico"><svg viewBox="0 0 24 24"><path d="M6.5 6.5 17.5 17.5M4 9l5-5M15 20l5-5M2.5 11.5 4 10M20 14l1.5-1.5M10 4l1.5-1.5M12.5 21.5 14 20"/></svg></div>
-            <h3>Every set earns XP</h3>
-            <p>Log sets, reps and weight in seconds. Watch your XP, rank and streak grow with every workout.</p>
-          </article>
-          <article class="card">
-            <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4zM5 21a7 7 0 0 1 14 0"/><path d="M19 4l1-1M5 4 4 3"/></svg></div>
-            <h3>AI coach</h3>
-            <p>Ask anything about training. Get a smart workout built for today, your goal and your gym.</p>
-          </article>
-          <article class="card">
-            <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></svg></div>
-            <h3>Snap, say or scan meals</h3>
-            <p>Photograph your plate, say what you ate, or scan a barcode. Calories and macros fill in for you.</p>
-          </article>
-          <article class="card">
-            <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11v2M12 9.5v5M15 11v2"/></svg></div>
-            <h3>Friends & voice chats</h3>
-            <p>Add friends, compare ranks and chat with replies, reactions and voice messages.</p>
-          </article>
-          <article class="card">
-            <div class="ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M14 20a4 4 0 0 1 7.5-2"/></svg></div>
-            <h3>Train together, live</h3>
-            <p>Start a co-workout and see your friends' sets in real time, wherever they are.</p>
-          </article>
-          <article class="card">
-            <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M8 6l1.5-2h5L16 6"/><circle cx="12" cy="12.5" r="3.5"/></svg></div>
-            <h3>Scan your gym</h3>
-            <p>Take a photo of the equipment around you and get exercises you can do right there.</p>
-          </article>
+
+    <!-- ── Feature 1: workouts / XP ─────────────────────────────────── -->
+    <section class="feat" id="features">
+      <div class="wrap row t-violet">
+        <div class="art shots">
+          <div class="blob"></div>
+          <span class="xp" style="top:12%;left:12%">+XP</span>
+          <span class="bubble b-white" style="bottom:14%;right:10%"><img src="./img/rank-S.png" alt="" /></span>
+          <div class="phones">
+            <div class="phone"><img src="./img/screens/workout.webp" alt="Logging a workout: leg press and bench sets checked off" loading="lazy" /></div>
+          </div>
+          <!-- Titan pressing a dumbbell. -->
+          <svg class="pg mini" viewBox="0 0 68 68" aria-hidden="true">
+            <g transform="translate(2 2)">
+              <use href="#pg-shadow" />
+              <g transform="translate(32 60)"><g class="lift-body"><g transform="translate(-32 -60)">
+                <g transform="translate(46 42)"><g class="wag"><g transform="translate(-46 -42)"><use href="#pg-tail" /><use href="#pg-spike" /></g></g></g>
+                <use href="#pg-horns" />
+                <use href="#pg-body" />
+                <use href="#pg-gem" />
+                <g transform="translate(32 36)"><g class="lift-eyes"><use href="#pg-eyes" transform="translate(-32 -36)" /></g></g>
+                <use href="#pg-brows" />
+                <use href="#pg-smile" />
+                <g transform="translate(16.5 43.5)"><g class="lift-armL"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                <g transform="translate(47.5 43.5)"><g class="lift-armR"><use href="#pg-armR" transform="translate(-47.5 -43.5)" /></g></g>
+                <g class="lift-bell"><use href="#pr-dumbbell" transform="translate(-32 -32)" /></g>
+              </g></g></g>
+            </g>
+          </svg>
+        </div>
+        <div class="copy">
+          <h2>Every set earns XP</h2>
+          <p>Log sets, reps and weight in seconds. Watch your XP, rank and streak grow with every workout.</p>
+          <p>Climb all eight ranks, from E to SSS. One way up: show up and train.</p>
         </div>
       </div>
     </section>
 
-    <!-- Companion -->
-    <section class="companion" id="companion">
-      <div class="wrap">
-        <span class="eyebrow">Your companion</span>
-        <h2 class="section-title">It grows when you do.</h2>
-        <p class="section-lead">Your pangolin companion evolves as you keep training — from a sleepy pup to an armored titan.</p>
+    <!-- ── Feature 2: meals ─────────────────────────────────────────── -->
+    <section class="feat">
+      <div class="wrap row flip t-royal">
+        <div class="art shots">
+          <div class="blob"></div>
+          <!-- camera / mic / barcode -->
+          <span class="bubble b-royal" style="top:8%;left:10%"><svg viewBox="0 0 24 24"><path fill="#fff" d="M9 4h6l1.6 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.4z"/><circle cx="12" cy="12.5" r="3.6" fill="#FFC23D"/></svg></span>
+          <span class="bubble small b-violet" style="top:16%;right:10%"><svg viewBox="0 0 24 24"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="#fff"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/><rect x="11" y="17" width="2" height="4" rx="1" fill="#fff"/></svg></span>
+          <span class="bubble small b-frost" style="bottom:12%;left:14%"><svg viewBox="0 0 24 24"><g fill="#fff"><rect x="3" y="5" width="2" height="14" rx="1"/><rect x="7" y="5" width="1.5" height="14" rx=".75"/><rect x="10.5" y="5" width="2.5" height="14" rx="1"/><rect x="15" y="5" width="1.5" height="14" rx=".75"/><rect x="18.5" y="5" width="2.5" height="14" rx="1"/></g></svg></span>
+          <div class="phones pair">
+            <div class="phone"><img src="./img/screens/camera.webp" alt="Meal photo camera aimed at a bowl of ramen" loading="lazy" /></div>
+            <div class="phone"><img src="./img/screens/food-scan.webp" alt="AI scan result: shoyu ramen, 470 kcal with protein, carbs and fat" loading="lazy" /></div>
+          </div>
+          <!-- Royal pup eating an apple. -->
+          <svg class="pg royal mini flip-mini" viewBox="0 0 68 68" aria-hidden="true">
+            <g transform="translate(2 2)">
+              <use href="#pg-shadow" />
+              <g transform="translate(32 60)"><g class="ap-body"><g transform="translate(-32 -60)">
+                <g transform="translate(46 42)"><g class="wag"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                <use href="#pg-body" />
+                <g transform="translate(32 36)"><g class="ap-eyes"><use href="#pg-eyes" transform="translate(-32 -36)" /></g></g>
+                <g class="ap-smile"><use href="#pg-smile" /></g>
+                <g class="ap-mouth"><use href="#pg-mouth" /></g>
+                <g transform="translate(16.5 43.5)"><g class="ap-armL"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                <g transform="translate(47.5 43.5)"><g class="ap-armR"><use href="#pg-armR" transform="translate(-47.5 -43.5)" /></g></g>
+                <g class="ap-apple"><use href="#pr-apple" transform="translate(-32 -32)" /></g>
+                <g transform="translate(32 46)"><g class="ap-crumbs"><use href="#pr-crumbs" transform="translate(-32 -46)" /></g></g>
+              </g></g></g>
+            </g>
+          </svg>
+        </div>
+        <div class="copy">
+          <h2>Snap, say or scan meals</h2>
+          <p>Photograph your plate, say what you ate, or scan a barcode. Calories and macros fill in for you.</p>
+        </div>
+      </div>
+    </section>
 
+    <!-- ── Feature 3: AI coach + gym scan ───────────────────────────── -->
+    <section class="feat">
+      <div class="wrap row t-frost">
+        <div class="art" aria-hidden="true">
+          <div class="blob"></div>
+          <!-- chat bubble / camera -->
+          <span class="bubble b-frost" style="top:8%;right:12%"><svg viewBox="0 0 24 24"><path fill="#fff" d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5z"/><circle cx="8.5" cy="9.5" r="1.3" fill="#4FD1E0"/><circle cx="12" cy="9.5" r="1.3" fill="#4FD1E0"/><circle cx="15.5" cy="9.5" r="1.3" fill="#4FD1E0"/></svg></span>
+          <span class="bubble small b-violet" style="bottom:14%;left:10%"><svg viewBox="0 0 24 24"><path fill="#fff" d="M9 4h6l1.6 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.4z"/><circle cx="12" cy="12.5" r="3.6" fill="#7C4DFF"/></svg></span>
+          <!-- Frost guardian on its phone. -->
+          <svg class="pg frost" viewBox="0 0 68 68">
+            <g transform="translate(2 2)">
+              <use href="#pg-shadow" />
+              <g transform="translate(32 60)"><g class="ph-hop"><g class="ph-body"><g transform="translate(-32 -60)">
+                <g transform="translate(46 42)"><g class="wag"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                <use href="#pg-body" />
+                <use href="#pg-gem" />
+                <use href="#pg-eyes" />
+                <g class="ph-smile"><use href="#pg-smile" /></g>
+                <g class="ph-mouth"><use href="#pg-mouth" /></g>
+                <g transform="translate(16.5 43.5)"><g class="ph-armL"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                <g transform="translate(47.5 43.5)"><g class="ph-armR"><use href="#pg-armR" transform="translate(-47.5 -43.5)" /></g></g>
+                <g class="ph-phone"><g transform="translate(-32 -32)"><use href="#pr-phone" /><g class="ph-flash"><use href="#pr-flash" /></g></g></g>
+                <g class="ph-heart"><use href="#pr-heart" transform="translate(-32 -31)" /></g>
+              </g></g></g></g>
+            </g>
+          </svg>
+        </div>
+        <div class="copy">
+          <h2>An AI coach in your pocket</h2>
+          <p>Ask anything about training. Get a smart workout built for today, your goal and your gym.</p>
+          <p>Scan your gym: take a photo of the equipment around you and get exercises you can do right there.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Feature 4: friends ───────────────────────────────────────── -->
+    <section class="feat">
+      <div class="wrap row flip t-violet">
+        <div class="art" aria-hidden="true">
+          <div class="blob"></div>
+          <span class="bubble small b-royal" style="top:6%;left:14%"><svg viewBox="0 0 24 24"><path fill="#fff" d="M12 20.5C5 16 4 11.5 6.2 8.6 8 6.3 10.8 6.8 12 8.8c1.2-2 4-2.5 5.8-.2 2.2 2.9 1.2 7.4-5.8 11.9z"/></svg></span>
+          <span class="bubble b-violet" style="top:4%;right:12%"><svg viewBox="0 0 24 24"><g fill="#fff"><rect x="3" y="10" width="2.4" height="4" rx="1.2"/><rect x="7" y="7" width="2.4" height="10" rx="1.2"/><rect x="11" y="4" width="2.4" height="16" rx="1.2"/><rect x="15" y="7" width="2.4" height="10" rx="1.2"/><rect x="19" y="10" width="2.4" height="4" rx="1.2"/></g></svg></span>
+          <div class="duo">
+            <!-- Two companions skipping rope together. -->
+            <svg class="pg" viewBox="0 0 68 68">
+              <g transform="translate(2 2)">
+                <use href="#pg-shadow" />
+                <g transform="translate(32 60)"><g class="rp-body"><g transform="translate(-32 -60)">
+                  <g transform="translate(32 47)"><g class="rp-back"><use href="#pr-rope" transform="translate(-32 -47)" /></g></g>
+                  <g transform="translate(46 42)"><g class="wag fast"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                  <use href="#pg-body" />
+                  <use href="#pg-gem" />
+                  <use href="#pg-eyes" />
+                  <use href="#pg-mouth" />
+                  <g transform="translate(16.5 43.5)"><g class="rp-armL"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                  <g transform="translate(47.5 43.5)"><g class="rp-armR"><use href="#pg-armR" transform="translate(-47.5 -43.5)" /></g></g>
+                  <g transform="translate(32 47)"><g class="rp-front"><use href="#pr-rope" transform="translate(-32 -47)" /></g></g>
+                </g></g></g>
+              </g>
+            </svg>
+            <svg class="pg frost rp-late" viewBox="0 0 68 68">
+              <g transform="translate(2 2)">
+                <use href="#pg-shadow" />
+                <g transform="translate(32 60) scale(.9) translate(-32 -60)">
+                <g transform="translate(32 60)"><g class="rp-body"><g transform="translate(-32 -60)">
+                  <g transform="translate(32 47)"><g class="rp-back"><use href="#pr-rope" transform="translate(-32 -47)" /></g></g>
+                  <g transform="translate(46 42)"><g class="wag fast"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                  <use href="#pg-body" />
+                  <use href="#pg-eyes" />
+                  <use href="#pg-mouth" />
+                  <g transform="translate(16.5 43.5)"><g class="rp-armL"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                  <g transform="translate(47.5 43.5)"><g class="rp-armR"><use href="#pg-armR" transform="translate(-47.5 -43.5)" /></g></g>
+                  <g transform="translate(32 47)"><g class="rp-front"><use href="#pr-rope" transform="translate(-32 -47)" /></g></g>
+                </g></g></g>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="copy">
+          <h2>Train together, live</h2>
+          <p>Start a co-workout and see your friends' sets in real time, wherever they are.</p>
+          <p>Add friends, compare ranks and chat with replies, reactions and voice messages.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Companion evolution ──────────────────────────────────────── -->
+    <section class="feat" id="companion">
+      <div class="wrap">
+        <div class="center-head">
+          <h2>It grows when you do.</h2>
+          <p>Your pangolin companion evolves as you keep training — from a sleepy pup to an armored titan.</p>
+        </div>
         <div class="evo">
-          <figure class="s1"><img src="./img/form1-pup.webp" alt="Pup form" loading="lazy" /><figcaption><small>Form 1</small>Pup</figcaption></figure>
+          <figure>
+            <svg class="pg" viewBox="0 0 68 68" role="img" aria-label="Pup form">
+              <g transform="translate(2 2)">
+                <g transform="translate(32 60) scale(.8) translate(-32 -60)">
+                  <use href="#pg-shadow" />
+                  <g transform="translate(32 60)"><g class="breathe"><g transform="translate(-32 -60)">
+                    <g transform="translate(46 42)"><g class="wag"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                    <use href="#pg-body" /><use href="#pg-eyes" /><use href="#pg-smile" /><use href="#pg-armL" /><use href="#pg-armR" />
+                  </g></g></g>
+                </g>
+              </g>
+            </svg>
+            <figcaption><small>Form 1</small>Pup</figcaption>
+          </figure>
           <div class="arrow" aria-hidden="true">→</div>
-          <figure class="s2"><img src="./img/form2-guardian.webp" alt="Guardian form" loading="lazy" /><figcaption><small>Form 2</small>Guardian</figcaption></figure>
+          <figure>
+            <svg class="pg" viewBox="0 0 68 68" role="img" aria-label="Guardian form">
+              <g transform="translate(2 2)">
+                <g transform="translate(32 60) scale(.9) translate(-32 -60)">
+                  <use href="#pg-shadow" />
+                  <g transform="translate(32 60)"><g class="breathe d1"><g transform="translate(-32 -60)">
+                    <g transform="translate(46 42)"><g class="wag d1"><use href="#pg-tail" transform="translate(-46 -42)" /></g></g>
+                    <use href="#pg-body" /><use href="#pg-gem" /><use href="#pg-eyes" /><use href="#pg-smile" /><use href="#pg-armL" /><use href="#pg-armR" />
+                  </g></g></g>
+                </g>
+              </g>
+            </svg>
+            <figcaption><small>Form 2</small>Guardian</figcaption>
+          </figure>
           <div class="arrow" aria-hidden="true">→</div>
-          <figure class="s3"><img src="./img/form3-titan.webp" alt="Titan form" loading="lazy" /><figcaption><small>Form 3</small>Titan</figcaption></figure>
+          <figure>
+            <svg class="pg" viewBox="0 0 68 68" role="img" aria-label="Titan form">
+              <g transform="translate(2 2)">
+                <use href="#pg-shadow" />
+                <g transform="translate(32 60)"><g class="breathe d2"><g transform="translate(-32 -60)">
+                  <g transform="translate(46 42)"><g class="wag d2"><g transform="translate(-46 -42)"><use href="#pg-tail" /><use href="#pg-spike" /></g></g></g>
+                  <use href="#pg-horns" /><use href="#pg-body" /><use href="#pg-gem" /><use href="#pg-eyes" /><use href="#pg-brows" /><use href="#pg-smile" /><use href="#pg-armL" /><use href="#pg-armR" />
+                </g></g></g>
+              </g>
+            </svg>
+            <figcaption><small>Form 3</small>Titan</figcaption>
+          </figure>
         </div>
         <div class="skins">
-          <div class="skin"><img src="./img/royal-form3-titan.webp" alt="" loading="lazy" /><div>Royal armor<small>Premium</small></div></div>
-          <div class="skin"><img src="./img/frost-form3-titan.webp" alt="" loading="lazy" /><div>Frost armor<small>Premium</small></div></div>
+          <div class="skin royal">
+            <svg class="pg royal" viewBox="0 0 68 68" aria-hidden="true">
+              <g transform="translate(2 2)">
+                <g transform="translate(46 42)"><g transform="translate(-46 -42)"><use href="#pg-tail" /><use href="#pg-spike" /></g></g>
+                <use href="#pg-horns" /><use href="#pg-body" /><use href="#pg-gem" /><use href="#pg-eyes" /><use href="#pg-brows" /><use href="#pg-smile" /><use href="#pg-armL" /><use href="#pg-armR" />
+              </g>
+            </svg>
+            <div><b>Royal armor</b><small>Premium</small></div>
+          </div>
+          <div class="skin frost">
+            <svg class="pg frost" viewBox="0 0 68 68" aria-hidden="true">
+              <g transform="translate(2 2)">
+                <use href="#pg-tail" /><use href="#pg-spike" />
+                <use href="#pg-horns" /><use href="#pg-body" /><use href="#pg-gem" /><use href="#pg-eyes" /><use href="#pg-brows" /><use href="#pg-smile" /><use href="#pg-armL" /><use href="#pg-armR" />
+              </g>
+            </svg>
+            <div><b>Frost armor</b><small>Premium</small></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Premium -->
+    <!-- ── Premium ──────────────────────────────────────────────────── -->
     <section class="premium" id="premium">
       <div class="wrap">
         <div class="premium-card">
           <div>
             <span class="eyebrow">Solo Fitness Premium</span>
-            <h2 class="section-title">Go further, every day.</h2>
-            <p class="section-lead">The core app is free. Premium removes the daily limits and unlocks everything else.</p>
+            <h2>Go further, every day.</h2>
+            <p>The core app is free. Premium removes the daily limits and unlocks everything else.</p>
             <p class="fine">Premium is an auto-renewing yearly subscription billed by the App Store or Google Play. Cancel any time in your store account settings; Premium stays active until the end of the paid period. See the <a href="./terms-of-service.html">Terms of Service</a>.</p>
           </div>
           <ul class="perks">
-            <li><div>Unlimited workouts<span>No daily cap on logging</span></div></li>
-            <li><div>Smart workouts every day<span>Fresh AI-built sessions</span></div></li>
-            <li><div>More AI meal photos and meal logs<span>Snap a plate or say what you ate</span></div></li>
-            <li><div>All premium courses<span>Guided programs, no diamonds needed</span></div></li>
-            <li><div>Groups & co-workouts<span>Train with friends, no passes</span></div></li>
-            <li><div>Royal & Frost armor + badge<span>Armor stays yours forever</span></div></li>
+            <li><span class="chk"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Unlimited workouts</b><span>No daily cap on logging</span></div></li>
+            <li><span class="chk"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Smart workouts every day</b><span>Fresh AI-built sessions</span></div></li>
+            <li><span class="chk"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>More AI meal photos and meal logs</b><span>Snap a plate or say what you ate</span></div></li>
+            <li><span class="chk"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>All premium courses</b><span>Guided programs, no diamonds needed</span></div></li>
+            <li><span class="chk"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Groups &amp; co-workouts</b><span>Train with friends, no passes</span></div></li>
+            <li><span class="chk"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Royal &amp; Frost armor + badge</b><span>Armor stays yours forever</span></div></li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
+    <!-- ── Closing CTA ──────────────────────────────────────────────── -->
     <section class="cta">
-      <div class="wrap">
-        <img class="big-icon" src="./img/icon-256.png" alt="Solo Fitness icon" />
-        <h2 class="section-title">Your next level starts today.</h2>
-        <p class="section-lead" style="margin: 0 auto;">Download Solo Fitness and log your first workout in under a minute.</p>
-        <div class="store-row">
-          <a class="store" href="https://apps.apple.com/app/id6791850301" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.76c-.03-2.72 2.22-4.03 2.32-4.1-1.27-1.85-3.24-2.1-3.93-2.13-1.67-.17-3.27.99-4.12.99-.86 0-2.16-.97-3.55-.94-1.83.03-3.51 1.06-4.45 2.69-1.9 3.29-.49 8.16 1.36 10.83.9 1.31 1.98 2.78 3.39 2.73 1.36-.05 1.87-.88 3.51-.88 1.64 0 2.1.88 3.54.85 1.46-.02 2.39-1.33 3.28-2.65 1.04-1.52 1.46-3 1.49-3.07-.03-.02-2.85-1.1-2.88-4.32zM13.67 4.77c.75-.91 1.25-2.17 1.11-3.43-1.08.04-2.38.72-3.15 1.63-.69.8-1.3 2.08-1.14 3.31 1.2.09 2.43-.61 3.18-1.51z"/></svg>
-            <span><small>Download on the</small><b>App Store</b></span>
-          </a>
-          <a class="store" href="https://play.google.com/store/apps/details?id=com.solofitness.app" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 2.2c-.3.3-.5.8-.5 1.4v16.8c0 .6.2 1.1.5 1.4l9.4-9.8z"/><path fill="#FBBC04" d="m16.1 15.2-3.1-3.2 3.1-3.2 3.7 2.1c1.1.6 1.1 1.6 0 2.2z"/><path fill="#EA4335" d="m16.1 15.2-3.1-3.2-9.4 9.8c.4.4 1 .4 1.7.1z"/><path fill="#4285F4" d="M16.1 8.8 5.3 2.1c-.7-.4-1.3-.3-1.7.1l9.4 9.8z"/></svg>
-            <span><small>Get it on</small><b>Google Play</b></span>
-          </a>
+      <div class="wrap cta-grid">
+        <div>
+          <h2>Your next level starts today.</h2>
+          <p>Download Solo Fitness and log your first workout in under a minute.</p>
+          <div class="store-stack">
+            <a class="btn btn-white store" href="https://apps.apple.com/app/id6791850301" rel="noopener">
+              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1d1d1f" d="M16.37 12.76c-.03-2.72 2.22-4.03 2.32-4.1-1.27-1.85-3.24-2.1-3.93-2.13-1.67-.17-3.27.99-4.12.99-.86 0-2.16-.97-3.55-.94-1.83.03-3.51 1.06-4.45 2.69-1.9 3.29-.49 8.16 1.36 10.83.9 1.31 1.98 2.78 3.39 2.73 1.36-.05 1.87-.88 3.51-.88 1.64 0 2.1.88 3.54.85 1.46-.02 2.39-1.33 3.28-2.65 1.04-1.52 1.46-3 1.49-3.07-.03-.02-2.85-1.1-2.88-4.32zM13.67 4.77c.75-.91 1.25-2.17 1.11-3.43-1.08.04-2.38.72-3.15 1.63-.69.8-1.3 2.08-1.14 3.31 1.2.09 2.43-.61 3.18-1.51z"/></svg></span>
+              <span><small>Download on the</small><b>App Store</b></span>
+            </a>
+            <a class="btn btn-white store" href="https://play.google.com/store/apps/details?id=com.solofitness.app" rel="noopener">
+              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 2.2c-.3.3-.5.8-.5 1.4v16.8c0 .6.2 1.1.5 1.4l9.4-9.8z"/><path fill="#FBBC04" d="m16.1 15.2-3.1-3.2 3.1-3.2 3.7 2.1c1.1.6 1.1 1.6 0 2.2z"/><path fill="#EA4335" d="m16.1 15.2-3.1-3.2-9.4 9.8c.4.4 1 .4 1.7.1z"/><path fill="#4285F4" d="M16.1 8.8 5.3 2.1c-.7-.4-1.3-.3-1.7.1l9.4 9.8z"/></svg></span>
+              <span><small>Get it on</small><b>Google Play</b></span>
+            </a>
+          </div>
+        </div>
+        <div class="cta-art" aria-hidden="true">
+          <div class="ring"></div>
+          <!-- Cheering Titan. -->
+          <svg class="pg" viewBox="0 0 68 68">
+            <g transform="translate(2 2)">
+              <g transform="translate(32 60)"><g class="ch-body"><g transform="translate(-32 -60)">
+                <g transform="translate(46 42)"><g class="wag fast"><g transform="translate(-46 -42)"><use href="#pg-tail" /><use href="#pg-spike" /></g></g></g>
+                <use href="#pg-horns" />
+                <use href="#pg-body" />
+                <use href="#pg-gem" />
+                <use href="#pg-eyes" />
+                <use href="#pg-brows" />
+                <use href="#pg-mouth" />
+                <g transform="translate(16.5 43.5)"><g class="ch-armL"><use href="#pg-armL" transform="translate(-16.5 -43.5)" /></g></g>
+                <g transform="translate(47.5 43.5)"><g class="ch-armR"><use href="#pg-armR" transform="translate(-47.5 -43.5)" /></g></g>
+              </g></g></g>
+              <g transform="translate(32 32)"><g class="ch-spark"><use href="#pr-sparkles" transform="translate(-32 -32)" /></g></g>
+            </g>
+          </svg>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site">
-    <div class="wrap">
+  <footer>
+    <div class="wrap foot">
       <div>© 2026 Solo Fitness · <a href="mailto:mikesot7@gmail.com">mikesot7@gmail.com</a></div>
-      <nav>
+      <nav aria-label="Legal">
         <a href="./privacy-policy.html">Privacy Policy</a>
         <a href="./terms-of-service.html">Terms of Service</a>
         <a href="./account-delete.html">Delete your account</a>
