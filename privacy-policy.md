@@ -1,6 +1,6 @@
 # Solo Fitness — Privacy Policy
 
-**Effective date:** 15 November 2026  
+**Effective date:** 25 November 2026  
 **Contact:** mikesot7@gmail.com
 
 This Privacy Policy describes how the Solo Fitness mobile application
@@ -49,8 +49,18 @@ track you across other apps or websites for advertising.
 - **Other training logs** — additional activity you log in the app (for
   example swimming sessions), when you use those features.
 
-This is **user-entered** fitness data. Solo Fitness is **not** a medical device
-and does **not** read Apple Health / HealthKit or Google Fit by default.
+This is **user-entered** fitness data. Solo Fitness is **not** a medical device.
+
+#### Step count from Apple Health / Health Connect (optional)
+
+If you turn on **Steps** in the daily quest, Solo Fitness asks for **read-only** access to your **step count** — from Apple Health (HealthKit) on iPhone, or from Health Connect on Android. No other health data types are requested, and Solo Fitness never writes to Apple Health or Health Connect.
+
+- **What we read** — the total number of steps since midnight today.
+- **Why** — only to show your progress toward the daily step goal you choose in the app.
+- **Where it stays** — the step count is processed on your device. It is **not** uploaded to our servers, **not** shared with or sold to third parties, and **not** used for advertising or marketing.
+- **Your control** — you can revoke access at any time in the Health app (iPhone) or in Health Connect settings (Android); the app then simply stops showing steps.
+
+Use of information received from Health Connect adheres to the Health Connect Permissions policy, including the Limited Use requirements. Data from Apple HealthKit is used only as described above and is not stored in iCloud or used for advertising, in line with Apple's HealthKit guidelines.
 
 ### 1.3 Nutrition information (optional)
 
